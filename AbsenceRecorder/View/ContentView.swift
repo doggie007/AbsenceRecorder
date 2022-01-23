@@ -8,9 +8,12 @@
 import SwiftUI
 
 struct ContentView: View {
+    var firstDivision = Division.examples[0]
+    var firstDivisionStudents = Division.examples[0].students
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        VStack{
+            Text("\(firstDivisionStudents[0].forename) \(firstDivisionStudents[0].surname)")
+        }
     }
 }
 
