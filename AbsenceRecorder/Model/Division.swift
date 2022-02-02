@@ -10,8 +10,27 @@ import Foundation
 class Division {
     let code: String
     var students: [Student] = []
+    var absences: [Absence] = []
+    
     init(code:String){
         self.code = code
+    }
+    
+    func getAbsence(for date: Date) -> Absence? {
+        return absences.first {
+            let comparison = Calendar.current.compare($0.takenOn, to:date, toGranularity: .day)
+            return comparison == .orderedSame
+        }
+    }
+    
+    func createAbsenceOrGetExistingIfAvailable(for date: Date) -> Absence{
+        if let existingAbsence = self.getAbsence(for: date){
+            return existingAbsence
+        } else{
+            let absence = Absence(date: date, students: students)
+            absences.append(absence)
+            return absence
+        }
     }
     
     #if DEBUG
@@ -22,7 +41,7 @@ class Division {
         }
         return division
     }
-    #endif
     
     static let examples = [Division.createDivision(code: "vBY-1", of: 8),Division.createDivision(code: "vDY-2", of: 12),Division.createDivision(code: "eVY-1", of: 15),Division.createDivision(code: "vBc-2", of: 14)]
+    #endif
 }
